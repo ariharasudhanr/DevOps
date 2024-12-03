@@ -6,3 +6,4 @@ RUN unzip oxer.zip
 RUN cp -rvf oxer/* .
 RUN rm -rf oxer oxer.zip
 CMD ["apache2ctl", "-D", "FOREGROUND"]
+EXPOSE 80
