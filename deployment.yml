@@ -1,27 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-   name: devops-deploy
+  name: devops-deploy
+  labels:
+    app: devops
 spec:
-   replicas: 1
-   selector:
-       matchLabels:
-          app: devops
-   template:
-       metadata:
-          labels:          
-             app: devops
-       spec:
-          containers:
-          - name: devops-container
-            image: ariharasudhanr/devops:latest
-            imagePullPolicy: Always
-            cresources:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: devops
+  template:
+    metadata:
+      labels:
+        app: devops
+    spec:
+      containers:
+      - name: devops-container
+        image: ariharasudhanr/devops:latest
+        imagePullPolicy: Always # Guarantees the latest image is fetched
+        ports:
+        - containerPort: 80
+        resources:
           requests:
             cpu: 200m       # Reserve sufficient CPU for image pulling
             memory: 256Mi   # Reserve sufficient memory for container startup
           limits:
             cpu: 500m
             memory: 512Mi
-            ports:
-            - containerPort: 80
+
