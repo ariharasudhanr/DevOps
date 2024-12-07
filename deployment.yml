@@ -1,30 +1,27 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: devops-deploy
-  labels:
-    app: devops
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: devops
-  template:
-    metadata:
-      labels:
-        app: devops
-    spec:
-      containers:
-      - name: devops-container
-        image: ariharasudhanr/devops:latest
-        imagePullPolicy: Always # Guarantees the latest image is fetched
-        ports:
-        - containerPort: 80
-        resources:
-          requests:
-            cpu: 200m       # Reserve sufficient CPU for image pulling
-            memory: 256Mi   # Reserve sufficient memory for container startup
-          limits:
-            cpu: 500m
-            memory: 512Mi
+- name: apply k8's configuration
+  hosts: node
+  become: yes
+  tasks:
+    - name: create new deployment
+      command: kubectl apply -f deployment.yml
+      register: result
+      environment:
+        KUBECONFIG: /home/ubuntu/.kube/config
+      args:
+        chdir: /home/ubuntu
 
+    - name: create new service
+      command: kubectl apply -f service.yml
+      register: result
+      environment:
+        KUBECONFIG: /home/ubuntu/.kube/config
+      args:
+        chdir: /home/ubuntu
+
+    - name: restart deployment to pull the latest image
+      command: kubectl rollout restart deployment devops-deploy
+      register: result
+      environment:
+        KUBECONFIG: /home/ubuntu/.kube/config
+      args:
+        chdir: /home/ubuntu
