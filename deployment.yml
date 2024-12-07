@@ -1,7 +1,7 @@
 apiVersion: apps/v1
-kind: deployment
+kind: Deployment
 metadata:
-   name: devops_deploy
+   name: devops-deploy
 spec:
    replicas: 3
    selector:
@@ -13,7 +13,7 @@ spec:
              app: devops
        spec:
           containers:
-          - name: devops_container
+          - name: devops-container
             image: ariharasudhanr/devops:latest
             imagePullPolicy: Always
             ports:
