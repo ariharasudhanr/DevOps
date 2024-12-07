@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
    name: devops-deploy
 spec:
-   replicas: 3
+   replicas: 1
    selector:
        matchLabels:
           app: devops
@@ -15,5 +15,6 @@ spec:
           containers:
           - name: devops-container
             image: ariharasudhanr/devops:latest
+            imagePullPolicy: Always
             ports:
             - containerPort: 80
