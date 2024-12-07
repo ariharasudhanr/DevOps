@@ -14,6 +14,6 @@ spec:
        spec:
           containers:
           - name: devops-container
-            image: ariharasudhanr/devops:v1.$BUILD_ID
+            image: ariharasudhanr/devops:latest
             ports:
             - containerPort: 80
