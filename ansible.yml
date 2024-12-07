@@ -3,13 +3,25 @@
   become: yes
   tasks:
     - name: create new deployment
-      command: kubectl apply -f /home/ubuntu/deployment.yml
+      command: kubectl apply -f deployment.yml
       register: result
       environment:
-          KUBECONFIG: /home/ubuntu/.kube/config
+        KUBECONFIG: /home/ubuntu/.kube/config
+      args:
+        chdir: /home/ubuntu
 
     - name: create new service
-      command: kubectl apply -f /home/ubuntu/service.yml
+      command: kubectl apply -f service.yml
       register: result
       environment:
-          KUBECONFIG: /home/ubuntu/.kube/config
+        KUBECONFIG: /home/ubuntu/.kube/config
+      args:
+        chdir: /home/ubuntu
+
+    - name: restart deployment to pull the latest image
+      command: kubectl rollout restart deployment devops-deploy
+      register: result
+      environment:
+        KUBECONFIG: /home/ubuntu/.kube/config
+      args:
+        chdir: /home/ubuntu
