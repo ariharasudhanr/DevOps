@@ -14,7 +14,14 @@ spec:
        spec:
           containers:
           - name: devops-container
-            image: ariharasudhanr/devops
+            image: ariharasudhanr/devops:latest
             imagePullPolicy: Always
+            cresources:
+          requests:
+            cpu: 200m       # Reserve sufficient CPU for image pulling
+            memory: 256Mi   # Reserve sufficient memory for container startup
+          limits:
+            cpu: 500m
+            memory: 512Mi
             ports:
             - containerPort: 80
